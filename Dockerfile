@@ -15,7 +15,9 @@ RUN apt install -y \
             libzip-dev \
             zip \
             zlib1g-dev \
-        && docker-php-ext-install \
+            wget
+
+RUN docker-php-ext-install \
             intl \
             opcache \
             pdo \
@@ -32,5 +34,7 @@ RUN chown -R www-data:www-data \
     /var/www/html/storage \
     /var/www/html/bootstrap/cache
 
-EXPOSE 8000
+
+EXPOSE 9000
+
 CMD ["php-fpm"]

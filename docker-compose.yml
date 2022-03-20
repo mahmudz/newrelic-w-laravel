@@ -3,25 +3,31 @@ version: '3'
 services:
     app:
         build: .
+        container_name: newreliclaravel
+        image: mahmudz/newreliclaravel
+        tty: true
         volumes:
             - ./:/var/www/html/
-            - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
         depends_on:
             - db
         networks:
             - app-network
-    web:
+
+    nginx:
+        container_name: newrelicnginx
         image: nginx:alpine
         restart: unless-stopped
         tty: true
         ports:
             - "80:80"
-            - "443:443"
-        depends_on:
-            - app
+        volumes:
+            - ./:/var/www/html
+            - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
         networks:
             - app-network
+
     db:
+        container_name: newreliclaraveldb
         image: mysql:5.7.32
         restart: unless-stopped
         tty: true
@@ -33,6 +39,7 @@ services:
 networks:
   app-network:
     driver: bridge
+
 volumes:
   dbdata:
     driver: local
