@@ -1,18 +1,29 @@
 version: '3'
 
 services:
+    newrelic-apm-daemon:
+        image: newrelic/php-daemon:9.12.0
+        ports:
+            - "31339:31339"
     app:
-        build: .
+        build:
+            context: .
+            args:
+                - NEW_RELIC_LICENSE_KEY=401050c65b8e29f53291820aaa22f3eb395cNRAL
+                - NEW_RELIC_APPNAME="TestNewRelic - Production"
+                - NEW_RELIC_DAEMON_ADDRESS="newrelic-apm-daemon:31339"
+
         container_name: newreliclaravel
         image: mahmudz/newreliclaravel
         tty: true
+        restart: always
         volumes:
             - ./:/var/www/html/
         depends_on:
             - db
+            - newrelic-apm-daemon
         networks:
             - app-network
-
     nginx:
         container_name: newrelicnginx
         image: nginx:alpine
