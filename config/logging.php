@@ -48,6 +48,11 @@ return [
     */
 
     'channels' => [
+        'newrelic' => [
+            'driver' => 'custom',
+            'via' => App\Logging\NewRelicLogger::class,
+        ],
+
         'stack' => [
             'driver' => 'stack',
             'channels' => ['single'],

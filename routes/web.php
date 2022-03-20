@@ -14,7 +14,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    \Log::error('Hello');
+    \Log::error('This Error at ' . date('ymdhi'), [
+        'type'          => 'article',
+        'favorite_soup' => 'Clam Chowder'
+    ]);
 
     return view('welcome');
 });
