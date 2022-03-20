@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+    app:
+        build: .
+        volumes:
+            - ./:/var/www/html/
+            - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
+        depends_on:
+            - db
+        networks:
+            - app-network
+    web:
+        image: nginx:alpine
+        restart: unless-stopped
+        tty: true
+        ports:
+            - "80:80"
+            - "443:443"
+        depends_on:
+            - app
+        networks:
+            - app-network
+    db:
+        image: mysql:5.7.32
+        restart: unless-stopped
+        tty: true
+        ports:
+            - "3306:3306"
+        environment:
+            MYSQL_DATABASE: laravel
+            MYSQL_ROOT_PASSWORD: password
+networks:
+  app-network:
+    driver: bridge
+volumes:
+  dbdata:
+    driver: local
