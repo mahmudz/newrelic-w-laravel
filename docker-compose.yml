@@ -9,7 +9,7 @@ services:
         build:
             context: .
             args:
-                - NEW_RELIC_LICENSE_KEY=401050c65b8e29f53291820aaa22f3eb395cNRAL
+                - NEW_RELIC_LICENSE_KEY=
                 - NEW_RELIC_APPNAME="TestNewRelic - Production"
                 - NEW_RELIC_DAEMON_ADDRESS="newrelic-apm-daemon:31339"
 
